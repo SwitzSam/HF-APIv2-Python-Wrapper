@@ -4,8 +4,6 @@
 
 import requests
 import json
-#import string
-
 class HF_API:
 
     client_id = None
@@ -102,8 +100,11 @@ class HF_API:
         self.uid = response['uid']
 
     def read(self, hf_asks):
-        
-        return self.sendRequest(self.read_url,{}, hf_asks)
+        if not self.access_token:
+            self.setError("NO ACCESS TOKEN SET")
+            return self.getErrors()
+        else:
+            return self.sendRequest(self.read_url,{}, hf_asks)
             
     def write(self,hf_asks):
         if not self.access_token:
